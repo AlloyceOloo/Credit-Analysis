@@ -4,6 +4,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.env
+*.venv
 .venv/
 venv/
 *.sqlite3
@@ -19,3 +20,23 @@ Thumbs.db
 
 # Jupyter
 .ipynb_checkpoints/
+
+
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# Misc
+*.sqlite3
+*.db
