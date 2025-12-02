@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:14
+  environment:
+    POSTGRES_USER: creditx
+    POSTGRES_PASSWORD: creditx
+    POSTGRES_DB: creditx
+  ports:
+    - '5432:5432'
+  volumes:
+    - pgdata:/var/lib/postgresql/data
+
+  creditx-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models:ro 
+    environment:
+      - PYTHONUNBUFFERED=1
+
+
+  minio:
+    image: minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    command: server /data --console-address ":9001"
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - miniodata:/data
+
+
+  mlflow:
+    image: mlfloworg/mlflow:latest
+    environment:
+      BACKEND_STORE_URI: postgresql://creditx:creditx@postgres:5432/creditx
+      ARTIFACT_ROOT: s3://mlflow
+    ports:
+      - '5000:5000'
+
+
+volumes:
+  pgdata:
+  miniodata:
